@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 20 14% 4%;
+  --foreground: 0 0% 98%;
+  --card: 24 9% 10%;
+  --card-foreground: 0 0% 98%;
+  --popover: 0 0% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 47 72% 52%;
+  --primary-foreground: 0 0% 9%;
+  --secondary: 75 32% 24%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 14.9%;
+  --muted-foreground: 0 0% 63.9%;
+  --accent: 75 32% 24%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 14.9%;
+  --input: 0 0% 14.9%;
+  --ring: 0 0% 83.1%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 20 14% 4%;
+  --foreground: 0 0% 98%;
+  --card: 24 9% 10%;
+  --card-foreground: 0 0% 98%;
+  --popover: 0 0% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 47 72% 52%;
+  --primary-foreground: 0 0% 9%;
+  --secondary: 75 32% 24%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 14.9%;
+  --muted-foreground: 0 0% 63.9%;
+  --accent: 75 32% 24%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 14.9%;
+  --input: 0 0% 14.9%;
+  --ring: 0 0% 83.1%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  h1 {
+    @apply text-6xl md:text-7xl font-bold;
+  }
+  h2 {
+    @apply text-4xl md:text-5xl font-semibold text-foreground;
+  }
+  h3 {
+    @apply text-3xl md:text-4xl font-medium text-muted-foreground;
+  }
+  p {
+    @apply text-lg md:text-xl leading-relaxed;
+  }
+}
+
+.parallax {
+  @apply relative overflow-hidden;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.booking-form {
+  @apply bg-card/80 backdrop-blur-sm rounded-lg p-6 shadow-xl;
+}
+
+.room-card {
+  @apply relative overflow-hidden rounded-lg transition-transform duration-300 hover:scale-[1.02];
+}
+
+.service-card {
+  @apply bg-card p-6 rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:translate-y-[-4px];
+}
+
+.testimonial-card {
+  @apply bg-card/80 backdrop-blur-sm p-6 rounded-lg shadow-lg;
+}
