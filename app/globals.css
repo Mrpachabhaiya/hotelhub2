@@ -91,3 +91,13 @@
 .testimonial-card {
   @apply bg-card/80 backdrop-blur-sm p-6 rounded-lg shadow-lg;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}

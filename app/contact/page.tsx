@@ -85,8 +85,11 @@ export default function ContactPage() {
   };
 
   return (
-    <div ref={pageRef} className="min-h-screen bg-background pt-24">
-      <div className="container mx-auto px-4">
+    <div
+      ref={pageRef}
+      className="min-h-screen bg-background pt-24 mb-20 w-full "
+    >
+      <div className="container mx-auto px-4 w-full h-full overflow-hidden">
         <h1 className="page-title text-4xl md:text-5xl font-bold text-center mb-12">
           Contact Us
         </h1>

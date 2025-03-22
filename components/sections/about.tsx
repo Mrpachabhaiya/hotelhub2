@@ -15,27 +15,27 @@ export default function About() {
   const leftContentRef = useRef(null);
   const rightContentRef = useRef(null);
 
-  // GSAP animation for left content
-  useGSAP(() => {
-    if (inView && leftContentRef.current) {
-      gsap.fromTo(
-        leftContentRef.current,
-        { opacity: 0, x: -50 },
-        { opacity: 1, x: 0, duration: 0.8 }
-      );
-    }
-  }, [inView]);
+  // // GSAP animation for left content
+  // useGSAP(() => {
+  //   if (inView && leftContentRef.current) {
+  //     gsap.fromTo(
+  //       leftContentRef.current,
+  //       { opacity: 0, x: -50 },
+  //       { opacity: 1, x: 0, duration: 0.8 }
+  //     );
+  //   }
+  // }, [inView]);
 
-  // GSAP animation for right content
-  useGSAP(() => {
-    if (inView && rightContentRef.current) {
-      gsap.fromTo(
-        rightContentRef.current,
-        { opacity: 0, x: 50 },
-        { opacity: 1, x: 0, duration: 0.8 }
-      );
-    }
-  }, [inView]);
+  // // GSAP animation for right content
+  // useGSAP(() => {
+  //   if (inView && rightContentRef.current) {
+  //     gsap.fromTo(
+  //       rightContentRef.current,
+  //       { opacity: 0, x: 50 },
+  //       { opacity: 1, x: 0, duration: 0.8 }
+  //     );
+  //   }
+  // }, [inView]);
 
   return (
     <section className="py-12 md:py-16 lg:py-24 bg-background" ref={ref}>
