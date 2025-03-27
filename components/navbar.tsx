@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 import { Playfair_Display } from "next/font/google";
 import { useAuth } from "@/context/auth-provider";
 import { useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
@@ -17,7 +16,7 @@ const playfair = Playfair_Display({ subsets: ["latin"] });
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const {user} = useAuth()
+  const {user ,initialLoad , loading, logout} = useAuth()
   const router = useRouter()
   useEffect(() => {
     const handleScroll = () => {
@@ -65,7 +64,9 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            {user ? (
+            {initialLoad ? (
+              <div className="h-8 w-8 rounded-full bg-gray-200 animate-pulse" />
+            ) : user ? (
               <>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -74,29 +75,29 @@ export default function Navbar() {
                       className="relative h-8 w-8 rounded-full"
                     >
                       <Avatar className="h-8 w-8">
-                        <AvatarImage src={user.fullName || undefined} />
+                        <AvatarImage src={user.image || undefined} />
                         <AvatarFallback>
-                          {user.email?.charAt(0).toUpperCase()}
+                          {user.fullName?.charAt(0).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56" align="end" forceMount>
-                    <DropdownMenuItem onClick={() => router.push("/profile")}>
+                    <DropdownMenuItem onClick={() => router.push(`/users/${user.id}/profile`)}>
                       Profile
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => router.push("/bookings")}>
                       Bookings
                     </DropdownMenuItem>
                     <DropdownMenuItem 
-                    // onClick={handleLogout}
+                    onClick={logout}
                     >
                       Logout
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </>
-            ) : (
+            ) :  (
               <Link
                 href="/login"
                 className="nav-item text-sm text-white hover:text-primary transition-colors tracking-wider"
@@ -132,7 +133,9 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              {user ? (
+              {initialLoad ? (
+              <div className="h-8 w-8 rounded-full bg-gray-200 animate-pulse" />
+            ) : user ? (
               <>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -143,34 +146,38 @@ export default function Navbar() {
                       <Avatar className="h-8 w-8">
                         <AvatarImage src={user.fullName || undefined} />
                         <AvatarFallback>
-                          {user.email?.charAt(0).toUpperCase()}
+                          {user.fullName?.charAt(0).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56" align="end" forceMount>
-                    <DropdownMenuItem onClick={() => router.push("/profile")}>
+                    <DropdownMenuItem onClick={() => {router.push(`/users/${user.id}/profile`),
+                  setIsOpen(false)}}>
                       Profile
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => router.push("/bookings")}>
+                    <DropdownMenuItem onClick={() => {router.push("/bookings"),
+                      setIsOpen(false)
+                    }}>
                       Bookings
                     </DropdownMenuItem>
                     <DropdownMenuItem 
-                    // onClick={handleLogout}
+                    onClick={() => { logout(),setIsOpen(false)}}
                     >
                       Logout
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </>
-            ) : (
+            ) :  (
               <Link
                 href="/login"
-                className="nav-item text-sm text-white hover:text-primary transition-colors tracking-wider"
+                className="block px-3 py-2 text-white hover:text-primary transition-colors tracking-wider"
+                onClick={() => setIsOpen(false)}
               >
                 LOGIN
               </Link>
-            )}
+            ) }
         
             </div>
           </div>

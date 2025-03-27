@@ -3,10 +3,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { SafeUser } from "@/lib/types";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+
 
 type AuthContextType = {
   user: SafeUser | null;
   loading: boolean;
+  initialLoad:boolean;
   setUser: (user: SafeUser | null) => void;
   logout: () => Promise<void>;
 };
@@ -14,6 +17,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
+  initialLoad : true,
   setUser: () => {},
   logout: async () => {},
 });
@@ -21,15 +25,33 @@ const AuthContext = createContext<AuthContextType>({
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<SafeUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const [initialLoad, setInitialLoad] = useState(true);
   const router = useRouter();
-
+  const {toast} = useToast()
   const logout = async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST' });
-      setUser(null);
-      router.refresh();
+      const response = await fetch('/api/auth/logout', { 
+        method: 'POST',
+        credentials: 'include' // Ensure cookies are sent
+      });
+      
+      if (response.ok) {
+        setUser(null);
+        router.push('/');
+        router.refresh(); // Refresh to update the UI
+        toast({
+          title: "Success",
+          description: "You've been logged out successfully",
+        });
+      } else {
+        throw new Error('Logout failed');
+      }
     } catch (error) {
-      console.error("Logout failed:", error);
+      toast({
+        title: "Error",
+        description: "Failed to logout",
+        variant: "destructive",
+      });
     }
   };
 
@@ -37,8 +59,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     async function loadUser() {
       try {
         const response = await fetch('/api/auth/session', {
-          credentials: 'include', // Ensure cookies are sent
-          cache: 'no-store' // Prevent caching
+          credentials: 'include',
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache'
+          } // Prevent caching
         });
         
         if (response.ok) {
@@ -51,15 +76,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         console.error("Failed to load user:", error);
         setUser(null);
       } finally {
+        setInitialLoad(false)
         setLoading(false);
       }
     }
-
+    const handleAuthChange = () => loadUser();
+    window.addEventListener('auth', handleAuthChange);
     loadUser();
+    return () => {
+      window.removeEventListener('auth', handleAuthChange);
+    };
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, setUser, logout }}>
+    <AuthContext.Provider value={{ user, loading : initialLoad || loading,  initialLoad, setUser, logout }}>
       {children}
     </AuthContext.Provider>
   );

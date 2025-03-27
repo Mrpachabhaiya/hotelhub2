@@ -46,7 +46,8 @@ export default function LoginPage() {
       if (!response.ok) {
         throw new Error(result.error || "Login failed");
       }
-
+       // Dispatch event to notify all components
+    window.dispatchEvent(new Event('auth'));
       toast({
         title: "Success",
         description: "You have been logged in successfully.",

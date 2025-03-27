@@ -16,8 +16,9 @@ model User {
   email     String   @unique
   fullName  String?
   password  String
+  image     String?
   mobile    String?  @db.VarChar(15)
-    role      UserRole @default(USER) 
+  role      UserRole @default(USER) 
   createdAt DateTime @default(now())
   bookings  Booking[] @relation("UserToBookings")
   contacts  Contact[] @relation("UserToContacts")
