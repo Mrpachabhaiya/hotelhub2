@@ -10,6 +10,7 @@ import Lenis from "@studio-freight/lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { AuthProvider } from "@/context/auth-provider";
+import { Toaster } from "@/components/ui/toaster";
 gsap.registerPlugin(ScrollTrigger);
 
 const roboto = Roboto({
@@ -63,6 +64,7 @@ export default function RootLayout({
             <Navbar />
             <main>{children}</main>
             <Footer />
+            <Toaster />
           </AuthProvider>
         </ThemeProvider>
       </body>

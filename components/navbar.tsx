@@ -6,14 +6,19 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Playfair_Display } from "next/font/google";
-import { gsap } from "gsap";
+import { useAuth } from "@/context/auth-provider";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-
+  const {user} = useAuth()
+  const router = useRouter()
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -28,7 +33,6 @@ export default function Navbar() {
     { href: "/", label: "HOME" },
     { href: "/rooms", label: "ROOMS" },
     { href: "/services", label: "SERVICES" },
-    { href: "/dine", label: "DINE" },
     { href: "/sports", label: "SPORTS" },
     { href: "/blog", label: "BLOG" },
     { href: "/contact", label: "CONTACT" },
@@ -61,24 +65,57 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link href="/book-now">
-              <Button
-                size="lg"
-                variant="outline"
-                className="nav-item border-white text-white hover:bg-white hover:text-[#283618] transition-colors tracking-wider"
+            {user ? (
+              <>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="relative h-8 w-8 rounded-full"
+                    >
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src={user.fullName || undefined} />
+                        <AvatarFallback>
+                          {user.email?.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <DropdownMenuItem onClick={() => router.push("/profile")}>
+                      Profile
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => router.push("/bookings")}>
+                      Bookings
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                    // onClick={handleLogout}
+                    >
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="nav-item text-sm text-white hover:text-primary transition-colors tracking-wider"
               >
-                BOOK NOW
-              </Button>
-            </Link>
+                LOGIN
+              </Link>
+            )}
+        
           </div>
 
           {/* Mobile Menu Button */}
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             className="lg:hidden text-white"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          </Button>
         </div>
 
         {/* Mobile Navigation */}
@@ -95,15 +132,46 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <Link href="/book-now" onClick={() => setIsOpen(false)}>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="w-full border-white text-white hover:bg-white hover:text-[#283618] transition-colors tracking-wider"
-                >
-                  BOOK NOW
-                </Button>
+              {user ? (
+              <>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="relative h-8 w-8 rounded-full"
+                    >
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src={user.fullName || undefined} />
+                        <AvatarFallback>
+                          {user.email?.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <DropdownMenuItem onClick={() => router.push("/profile")}>
+                      Profile
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => router.push("/bookings")}>
+                      Bookings
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                    // onClick={handleLogout}
+                    >
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="nav-item text-sm text-white hover:text-primary transition-colors tracking-wider"
+              >
+                LOGIN
               </Link>
+            )}
+        
             </div>
           </div>
         )}

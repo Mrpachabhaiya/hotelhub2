@@ -8,14 +8,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { signUp } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
-
 const registerSchema = z
   .object({
+    fullName: z.string(),
     email: z.string().email("Invalid email address"),
     password: z.string().min(6, "Password must be at least 6 characters"),
     confirmPassword: z.string(),
+    mobile: z.string().min(10, "Mobile number must be at least 10 digits"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -25,7 +25,7 @@ const registerSchema = z
 type RegisterForm = z.infer<typeof registerSchema>;
 
 export default function RegisterPage() {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
 
@@ -39,33 +39,63 @@ export default function RegisterPage() {
 
   const onSubmit = async (data: RegisterForm) => {
     try {
-      setIsLoading(true);
-      await signUp(data.email, data.password);
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fullName: data.fullName,
+          email: data.email,
+          password: data.password,
+          mobile: data.mobile,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Registration failed");
+      }
+
       toast({
         title: "Success",
-        description:
-          "Registration successful. Please check your email to confirm your account.",
+        description: "Registration successful. Please login.",
       });
-      router.push("/auth/login");
+      router.push("/login");
     } catch (error) {
       toast({
         title: "Error",
-        description: "Registration failed. Please try again.",
+        description:
+          error instanceof Error ? error.message : "Registration failed",
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-background pt-24">
+    <div className="min-h-screen bg-background pt-24 pb-20">
       <div className="container mx-auto px-4">
         <div className="max-w-md mx-auto">
           <h1 className="text-3xl font-bold text-center mb-8">Register</h1>
 
           <div className="bg-card p-6 rounded-lg shadow-lg">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Full Name
+                </label>
+                <Input
+                  type="text"
+                  {...register("fullName")}
+                  placeholder="Enter your full Name"
+                />
+                {errors.fullName && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.fullName.message}
+                  </p>
+                )}
+              </div>
               <div>
                 <label className="block text-sm font-medium mb-2">Email</label>
                 <Input
@@ -79,7 +109,20 @@ export default function RegisterPage() {
                   </p>
                 )}
               </div>
-
+              <div>
+                <label className="block text-sm font-medium mb-2">Number</label>
+                <Input
+                  type="tel"
+                  {...register("mobile")}
+                  placeholder="Enter your mobile number"
+                  pattern="[0-9]{10,15}"
+                />
+                {errors.mobile && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.mobile.message}
+                  </p>
+                )}
+              </div>
               <div>
                 <label className="block text-sm font-medium mb-2">
                   Password
@@ -112,18 +155,15 @@ export default function RegisterPage() {
                 )}
               </div>
 
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Registering..." : "Register"}
+              <Button type="submit" className="w-full">
+                Register
               </Button>
             </form>
 
             <div className="mt-4 text-center">
               <p className="text-sm text-muted-foreground">
-                Already have an account?{" "}
-                <Link
-                  href="/auth/login"
-                  className="text-primary hover:underline"
-                >
+                Already have an account?
+                <Link href="/login" className="text-primary hover:underline">
                   Login
                 </Link>
               </p>

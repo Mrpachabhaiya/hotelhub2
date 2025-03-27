@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { signIn } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
 
 const loginSchema = z.object({
@@ -30,11 +29,24 @@ export default function LoginPage() {
   } = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
   });
-
   const onSubmit = async (data: LoginForm) => {
     try {
       setIsLoading(true);
-      await signIn(data.email, data.password);
+
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Login failed");
+      }
+
       toast({
         title: "Success",
         description: "You have been logged in successfully.",
@@ -43,7 +55,8 @@ export default function LoginPage() {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Invalid email or password.",
+        description:
+          error instanceof Error ? error.message : "Invalid email or password.",
         variant: "destructive",
       });
     } finally {
@@ -97,10 +110,7 @@ export default function LoginPage() {
             <div className="mt-4 text-center">
               <p className="text-sm text-muted-foreground">
                 Don't have an account?{" "}
-                <Link
-                  href="/auth/register"
-                  className="text-primary hover:underline"
-                >
+                <Link href="/register" className="text-primary hover:underline">
                   Register
                 </Link>
               </p>

@@ -1,283 +1,11 @@
-// "use client";
-
-// import { useRef, useEffect } from "react";
-// import { gsap } from "gsap";
-// import { Calendar } from "@/components/ui/calendar";
-// import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import Link from "next/link";
-// import {
-//   Carousel,
-//   CarouselContent,
-//   CarouselItem,
-//   CarouselNext,
-//   CarouselPrevious,
-// } from "@/components/ui/carousel";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
-// import { useState } from "react";
-// import { Card, CardContent } from "@/components/ui/card";
-
-// export default function BookNowPage() {
-//   const [checkIn, setCheckIn] = useState<Date>();
-//   const [checkOut, setCheckOut] = useState<Date>();
-//   const pageRef = useRef<HTMLDivElement>(null);
-
-//   useEffect(() => {
-//     const ctx = gsap.context(() => {
-//       gsap.from(".page-title", {
-//         opacity: 0,
-//         y: 50,
-//         duration: 1,
-//         delay: 0.2,
-//       });
-
-//       gsap.from(".booking-form", {
-//         opacity: 0,
-//         y: 30,
-//         duration: 0.8,
-//         delay: 0.4,
-//       });
-//     }, pageRef);
-
-//     return () => ctx.revert();
-//   }, []);
-//   const rooms = [
-//     {
-//       id: "oceanview-deluxe",
-//       name: "Oceanview Deluxe",
-//       image:
-//         "https://images.unsplash.com/photo-1590490359683-658d3d23f972?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
-//       price: "$299",
-//       description: "Luxurious room with stunning ocean views",
-//     },
-//     {
-//       id: "royal-suite",
-//       name: "Royal Suite",
-//       image:
-//         "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
-//       price: "$499",
-//       description: "Spacious suite with premium amenities",
-//     },
-//     {
-//       id: "garden-villa",
-//       name: "Garden Villa",
-//       image:
-//         "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
-//       price: "$399",
-//       description: "Private villa surrounded by tropical gardens",
-//     },
-//     {
-//       id: "luxury-signature",
-//       name: "Luxury Signature",
-//       image:
-//         "https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
-//       price: "$599",
-//       description: "Our signature room with exclusive benefits",
-//     },
-//     {
-//       id: "garden-villa",
-//       name: "Garden Villa",
-//       image:
-//         "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
-//       price: "$399",
-//       description: "Private villa surrounded by tropical gardens",
-//     },
-//     {
-//       id: "luxury-signature",
-//       name: "Luxury Signature",
-//       image:
-//         "https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80",
-//       price: "$599",
-//       description: "Our signature room with exclusive benefits",
-//     },
-//   ];
-//   return (
-//     <div ref={pageRef} className="min-h-screen bg-background pt-24 pb-10">
-//       <div className="container mx-auto px-4">
-//         <h1 className="page-title text-4xl md:text-5xl font-bold text-center mb-12">
-//           Book Your Stay
-//         </h1>
-
-//         <div className="max-w-4xl mx-auto">
-//           <div className="booking-form bg-card p-8 rounded-lg shadow-lg">
-//             <form className="space-y-6">
-//               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-//                 <div className="space-y-2">
-//                   <label className="text-sm font-medium">Check In</label>
-//                   <Calendar
-//                     mode="single"
-//                     selected={checkIn}
-//                     onSelect={setCheckIn}
-//                     className="rounded-md border"
-//                   />
-//                 </div>
-
-//                 <div className="space-y-2">
-//                   <label className="text-sm font-medium">Check Out</label>
-//                   <Calendar
-//                     mode="single"
-//                     selected={checkOut}
-//                     onSelect={setCheckOut}
-//                     className="rounded-md border"
-//                   />
-//                 </div>
-//               </div>
-
-//               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//                 <div className="space-y-2">
-//                   <label className="text-sm font-medium">Adults</label>
-//                   <Select>
-//                     <SelectTrigger>
-//                       <SelectValue placeholder="Select" />
-//                     </SelectTrigger>
-//                     <SelectContent>
-//                       {[1, 2, 3, 4].map((num) => (
-//                         <SelectItem key={num} value={num.toString()}>
-//                           {num} {num === 1 ? "Adult" : "Adults"}
-//                         </SelectItem>
-//                       ))}
-//                     </SelectContent>
-//                   </Select>
-//                 </div>
-
-//                 <div className="space-y-2">
-//                   <label className="text-sm font-medium">Children</label>
-//                   <Select>
-//                     <SelectTrigger>
-//                       <SelectValue placeholder="Select" />
-//                     </SelectTrigger>
-//                     <SelectContent>
-//                       {[0, 1, 2, 3].map((num) => (
-//                         <SelectItem key={num} value={num.toString()}>
-//                           {num} {num === 1 ? "Child" : "Children"}
-//                         </SelectItem>
-//                       ))}
-//                     </SelectContent>
-//                   </Select>
-//                 </div>
-//               </div>
-
-//               <div className="space-y-2">
-//                 <label className="text-sm font-medium">Room Type</label>
-//                 <Select>
-//                   <SelectTrigger>
-//                     <SelectValue placeholder="Select Room Type" />
-//                   </SelectTrigger>
-//                   <SelectContent>
-//                     <SelectItem value="deluxe">Deluxe Room</SelectItem>
-//                     <SelectItem value="suite">Executive Suite</SelectItem>
-//                     <SelectItem value="family">Family Room</SelectItem>
-//                     <SelectItem value="presidential">
-//                       Presidential Suite
-//                     </SelectItem>
-//                   </SelectContent>
-//                 </Select>
-//               </div>
-
-//               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//                 <div className="space-y-2">
-//                   <label className="text-sm font-medium">Full Name</label>
-//                   <Input placeholder="John Doe" />
-//                 </div>
-//                 <div className="space-y-2">
-//                   <label className="text-sm font-medium">Email</label>
-//                   <Input type="email" placeholder="john@example.com" />
-//                 </div>
-//               </div>
-
-//               <div className="space-y-2">
-//                 <label className="text-sm font-medium">Special Requests</label>
-//                 <Input placeholder="Any special requests or preferences?" />
-//               </div>
-
-//               <Button className="w-full">Confirm Booking</Button>
-//             </form>
-//           </div>
-//         </div>
-//         <div className="pt-10">
-//           <h1 className="page-title text-xl  font-bold  pb-5">
-//             See Related Rooms
-//           </h1>
-//           <div className="flex-1 flex items-center justify-center">
-//             <Carousel
-//               opts={{
-//                 align: "start",
-//                 loop: true,
-//               }}
-//               className="w-full"
-//             >
-//               <CarouselContent>
-//                 {rooms.map((room, index) => (
-//                   <CarouselItem
-//                     key={index}
-//                     className="pl-2 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
-//                   >
-//                     <Card className="h-full w-full ">
-//                       <Link
-//                         href={`/rooms/${room.id}`}
-//                         className=" w-full h-full"
-//                       >
-//                         <CardContent className="flex flex-col w-full h-full  p-0 ">
-//                           <div className="relative aspect-[4/3] overflow-hidden rounded-t-lg">
-//                             <img
-//                               src={room.image}
-//                               alt={room.name}
-//                               className="object-cover w-full h-full transition-transform duration-300 hover:scale-110"
-//                             />
-//                           </div>
-
-//                           <div className="p-4 bg-background flex flex-col flex-grow">
-//                             <h3 className="text-lg sm:text-xl font-semibold mb-2">
-//                               {room.name}
-//                             </h3>
-//                             <p className="text-muted-foreground text-sm sm:text-base mb-4">
-//                               {room.description}
-//                             </p>
-//                             <div className="flex justify-between items-center mt-auto">
-//                               <span className="text-primary text-lg sm:text-xl font-bold">
-//                                 {room.price}
-//                                 <span className="text-sm text-muted-foreground">
-//                                   /night
-//                                 </span>
-//                               </span>
-//                               <Button
-//                                 variant="outline"
-//                                 className="text-sm sm:text-base"
-//                               >
-//                                 View Details
-//                               </Button>
-//                             </div>
-//                           </div>
-//                         </CardContent>
-//                       </Link>
-//                     </Card>
-//                   </CarouselItem>
-//                 ))}
-//               </CarouselContent>
-//               <CarouselPrevious className="hidden sm:flex absolute left-4 top-1/2 transform -translate-y-1/2" />
-//               <CarouselNext className="hidden sm:flex absolute right-4 top-1/2 transform -translate-y-1/2" />
-//             </Carousel>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
 "use client";
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import {
   Select,
@@ -286,62 +14,151 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createBooking } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/auth-provider";
+import { Loader2 } from "lucide-react";
 
 const bookingSchema = z.object({
   room_id: z.string().min(1, "Please select a room"),
-  check_in: z.date(),
-  check_out: z.date(),
-  adults: z.number().min(1),
-  children: z.number().min(0),
+  check_in: z.date({
+    required_error: "Please select a check-in date",
+    invalid_type_error: "Please select a valid date",
+  }),
+  check_out: z.date({
+    required_error: "Please select a check-out date",
+    invalid_type_error: "Please select a valid date",
+  }),
+  adults: z.string().min(1).refine(val => !isNaN(Number(val)), {
+    message: "Expected number, received a string"
+  }).transform(val => Number(val)),
+  children: z.string().min(0).refine(val => !isNaN(Number(val)), {
+    message: "Expected number, received a string"
+  }).transform(val => Number(val)),
   special_requests: z.string().optional(),
 });
 
 type BookingForm = z.infer<typeof bookingSchema>;
 
 export default function BookNowPage() {
-  const [checkIn, setCheckIn] = useState<Date>();
-  const [checkOut, setCheckOut] = useState<Date>();
+  const { user, loading } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch,
+    setValue,
   } = useForm<BookingForm>({
     resolver: zodResolver(bookingSchema),
+    defaultValues: {
+      adults: 1,
+      children: 0,
+    },
   });
+
+  // Handle auth redirect
+  useEffect(() => {
+    if (!loading && !user) {
+      setIsRedirecting(true);
+      router.push("/login");
+    }
+  }, [user, loading, router]);
+
+  const checkInDate = watch("check_in");
+  const checkOutDate = watch("check_out");
+
+  // Set default dates if not set
+  useEffect(() => {
+    if (!checkInDate) {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      setValue("check_in", tomorrow);
+    }
+    if (!checkOutDate && checkInDate) {
+      const nextDay = new Date(checkInDate);
+      nextDay.setDate(nextDay.getDate() + 1);
+      setValue("check_out", nextDay);
+    }
+  }, [checkInDate, checkOutDate, setValue]);
 
   const onSubmit = async (data: BookingForm) => {
     try {
-      const bookingData = {
-        ...data,
-        check_in: data.check_in.toISOString(), // Convert to ISO string
-        check_out: data.check_out.toISOString(), // Convert to ISO string
-        user_id: "user_id", // Replace with actual user ID after authentication
-      };
+      if (!user) {
+        throw new Error("You must be logged in to make a booking");
+      }
 
-      await createBooking(bookingData);
+      if (data.check_in >= data.check_out) {
+        throw new Error("Check-out date must be after check-in date");
+      }
+
+      const response = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          room_id: data.room_id,
+          check_in: data.check_in.toISOString(),
+          check_out: data.check_out.toISOString(),
+          adults: Number(data.adults),
+          children: Number(data.children),
+          special_requests: data.special_requests
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Booking failed');
+      }
 
       toast({
         title: "Booking Successful",
         description: "We'll send you a confirmation email shortly.",
       });
 
-      router.push("/my-bookings");
+      router.push("/bookings");
     } catch (error) {
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: error instanceof Error ? error.message : "Something went wrong",
         variant: "destructive",
       });
     }
   };
 
+  if (loading || isRedirecting) {
+    return (
+      <div className="min-h-screen bg-background pt-24 pb-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto flex flex-col items-center justify-center h-64">
+            <Loader2 className="h-8 w-8 animate-spin" />
+            <p className="mt-4 text-sm">
+              {loading ? "Loading user session..." : "Redirecting to login..."}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-background pt-24 pb-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto flex flex-col items-center justify-center h-64">
+            <p className="text-sm">You need to be logged in to book a room.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-background pt-24">
+    <div className="min-h-screen bg-background pt-24 pb-20">
       <div className="container mx-auto px-4">
         <h1 className="text-4xl md:text-5xl font-bold text-center mb-12">
           Book Your Stay
@@ -352,33 +169,46 @@ export default function BookNowPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-medium">Check In</label>
-                <Calendar
-                  mode="single"
-                  selected={checkIn}
-                  onSelect={setCheckIn}
-                  className="rounded-md border"
-                  {...register("check_in")}
+                <Controller
+                  name="check_in"
+                  control={control}
+                  render={({ field }) => (
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      className="rounded-md border"
+                      disabled={(date) => date < new Date()}
+                      initialFocus
+                    />
+                  )}
                 />
                 {errors.check_in && (
-                  <p className="text-red-500 text-sm">
-                    {errors.check_in.message}
-                  </p>
+                  <p className="text-red-500 text-sm">{errors.check_in.message}</p>
                 )}
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-medium">Check Out</label>
-                <Calendar
-                  mode="single"
-                  selected={checkOut}
-                  onSelect={setCheckOut}
-                  className="rounded-md border"
-                  {...register("check_out")}
+                <Controller
+                  name="check_out"
+                  control={control}
+                  render={({ field }) => (
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      className="rounded-md border"
+                      disabled={(date) => 
+                        date < new Date() || 
+                        (checkInDate && date <= checkInDate)
+                      }
+                      initialFocus
+                    />
+                  )}
                 />
                 {errors.check_out && (
-                  <p className="text-red-500 text-sm">
-                    {errors.check_out.message}
-                  </p>
+                  <p className="text-red-500 text-sm">{errors.check_out.message}</p>
                 )}
               </div>
             </div>
@@ -386,78 +216,112 @@ export default function BookNowPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <label className="text-sm font-medium">Room Type</label>
-                <Select {...register("room_id")}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Room Type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="oceanview-deluxe">
-                      Oceanview Deluxe
-                    </SelectItem>
-                    <SelectItem value="royal-suite">Royal Suite</SelectItem>
-                    <SelectItem value="garden-villa">Garden Villa</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Controller
+                  name="room_id"
+                  control={control}
+                  render={({ field }) => (
+                    <Select 
+                      onValueChange={field.onChange} 
+                      value={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Room Type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="room-1">Oceanview Deluxe</SelectItem>
+                        <SelectItem value="room-2">Royal Suite</SelectItem>
+                        <SelectItem value="room-3">Garden Villa</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
                 {errors.room_id && (
-                  <p className="text-red-500 text-sm">
-                    {errors.room_id.message}
-                  </p>
+                  <p className="text-red-500 text-sm">{errors.room_id.message}</p>
                 )}
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-medium">Adults</label>
-                <Select {...register("adults")}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {[1, 2, 3, 4].map((num) => (
-                      <SelectItem key={num} value={num.toString()}>
-                        {num} {num === 1 ? "Adult" : "Adults"}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Controller
+                  name="adults"
+                  control={control}
+                  render={({ field }) => (
+                    <Select 
+                      onValueChange={field.onChange} 
+                      value={field.value.toString()}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[1, 2, 3, 4].map((num) => (
+                          <SelectItem key={num} value={num.toString()}>
+                            {num} {num === 1 ? "Adult" : "Adults"}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
                 {errors.adults && (
-                  <p className="text-red-500 text-sm">
-                    {errors.adults.message}
-                  </p>
+                  <p className="text-red-500 text-sm">{errors.adults.message}</p>
                 )}
               </div>
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Children</label>
-              <Select {...register("children")}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent>
-                  {[0, 1, 2, 3].map((num) => (
-                    <SelectItem key={num} value={num.toString()}>
-                      {num} {num === 1 ? "Child" : "Children"}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Controller
+                name="children"
+                control={control}
+                render={({ field }) => (
+                  <Select 
+                    onValueChange={field.onChange} 
+                    value={field.value.toString()}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[0, 1, 2, 3].map((num) => (
+                        <SelectItem key={num} value={num.toString()}>
+                          {num} {num === 1 ? "Child" : "Children"}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
               {errors.children && (
-                <p className="text-red-500 text-sm">
-                  {errors.children.message}
-                </p>
+                <p className="text-red-500 text-sm">{errors.children.message}</p>
               )}
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Special Requests</label>
-              <Input
-                {...register("special_requests")}
-                placeholder="Any special requests or preferences?"
+              <Controller
+                name="special_requests"
+                control={control}
+                render={({ field }) => (
+                  <textarea
+                    {...field}
+                    className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="Any special requests or preferences?"
+                    rows={3}
+                  />
+                )}
               />
             </div>
 
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Processing..." : "Confirm Booking"}
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                "Confirm Booking"
+              )}
             </Button>
           </form>
         </div>

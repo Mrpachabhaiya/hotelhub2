@@ -1,7 +1,5 @@
 "use client";
-
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar, Users, Bath, Coffee, Wifi, Tv } from 'lucide-react';

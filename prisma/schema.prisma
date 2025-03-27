@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  fullName  String?
+  password  String
+  mobile    String?  @db.VarChar(15)
+    role      UserRole @default(USER) 
+  createdAt DateTime @default(now())
+  bookings  Booking[] @relation("UserToBookings")
+  contacts  Contact[] @relation("UserToContacts")
+}
+
+model Booking {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation("UserToBookings", fields: [userId], references: [id])
+  roomId          String
+  room            Room     @relation("RoomToBookings", fields: [roomId], references: [id])
+  checkIn         DateTime
+  checkOut        DateTime
+  adults          Int  @default(1)
+  children        Int  @default(0)
+  specialRequests String?
+  status          BookingStatus @default(PENDING)
+  createdAt       DateTime @default(now())
+}
+
+model Contact {
+  id        String       @id @default(uuid())
+  firstName String
+  lastName  String
+  email     String
+  subject   String
+  message   String
+  status    ContactStatus @default(UNREAD)
+  createdAt DateTime     @default(now())
+  userId    String?
+  user      User?        @relation("UserToContacts", fields: [userId], references: [id])
+}
+
+model Room {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?
+  price       Float
+  capacity    Int
+  image       String?
+  bookings    Booking[] @relation("RoomToBookings") 
+  createdAt   DateTime  @default(now())
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum ContactStatus {
+  UNREAD
+  READ
+  REPLIED
+}
+
