@@ -17,13 +17,7 @@ const nextConfig = {
   },
   typescript: {
     ignoreBuildErrors: true, // Disable TypeScript errors during build
-  },
-  api: {
-    bodyParser: {
-      sizeLimit: '1mb',
-    },
-    externalResolver: true,
-  },
+  }
 };
 
 module.exports = nextConfig;
