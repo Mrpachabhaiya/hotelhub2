@@ -4,7 +4,8 @@ import { verifyPassword } from '@/lib/auth'
 import { generateToken } from '@/lib/token'
 import { TokenPayload } from '@/lib/types'
 import * as z from 'zod'
-
+export const dynamic = 'force-dynamic'; // Prevent static optimization
+export const revalidate = 0;
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),

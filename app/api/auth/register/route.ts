@@ -4,7 +4,8 @@ import { hashPassword } from '@/lib/auth'
 import * as z from 'zod'
 import { generateToken } from '@/lib/token'
 import { TokenPayload } from '@/lib/types'
-
+export const dynamic = 'force-dynamic'; // Prevent static optimization
+export const revalidate = 0;
 const registerSchema = z.object({
   fullName: z.string(),
   email: z.string().email(),
