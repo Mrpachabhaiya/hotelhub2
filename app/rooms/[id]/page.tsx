@@ -73,7 +73,7 @@ export default function RoomDetail({ params }: { params: { id: string } }) {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background pt-24">
+      <div className="min-h-screen bg-background py-20">
         <div className="container mx-auto px-4">
           <Skeleton className="h-[400px] w-full rounded-lg mb-8" />
           <Skeleton className="h-12 w-1/3 mb-4" />
@@ -133,7 +133,7 @@ export default function RoomDetail({ params }: { params: { id: string } }) {
               ))}
             </div>
 
-            <div className="grid grid-cols-3 gap-4 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
               <div className="bg-card p-4 rounded-lg">
                 <h3 className="font-semibold mb-1">Room Size</h3>
                 <p className="text-muted-foreground">{room.size}</p>

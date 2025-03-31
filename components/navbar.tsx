@@ -16,7 +16,7 @@ const playfair = Playfair_Display({ subsets: ["latin"] });
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const {user ,initialLoad , loading, logout} = useAuth()
+  const {user ,initialLoad , logout} = useAuth()
   const router = useRouter()
   useEffect(() => {
     const handleScroll = () => {

@@ -27,17 +27,31 @@ export default function RootLayout({
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       touchMultiplier: 2,
-    });
-
-    function raf(time: number) {
+      // lerp: 0.08,
+      // smoothWheel: true,
+      // infinite: false,
+      // gestureOrientation: "vertical",
+      // normalizeWheel: true,  // Now properly typed
+      // smoothTouch: false,
+    } as any);
+    let frameCount = 0;
+    const throttleFactor = 2;
+    const raf = (time: number) => {
       lenis.raf(time);
       requestAnimationFrame(raf);
-    }
+
+      if (frameCount % throttleFactor === 0) {
+        ScrollTrigger.update();
+      }
+      frameCount++;
+    };
 
     requestAnimationFrame(raf);
-
+    if (process.env.NODE_ENV === "production") {
+      lenis.on("scroll", ScrollTrigger.update);
+    }
     // Connect GSAP ScrollTrigger with Lenis
     lenis.on("scroll", ScrollTrigger.update);
 

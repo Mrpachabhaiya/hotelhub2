@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect} from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -56,7 +56,6 @@ export const useGsap = ({ animationRefs }: UseGsapProps) => {
             "-=0.3"
           );
       }
-
       // Booking Form Animations
       if (animationRefs.bookingForm?.current) {
         gsap.from(animationRefs.bookingForm.current, {

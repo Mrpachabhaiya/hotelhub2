@@ -9,22 +9,19 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: { unoptimized: true },
-  experimental: {
-    serverActions: true, // Enable server actions
-  },
   eslint: {
-    ignoreDuringBuilds: true, // Disable ESLint during build
+    ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: true, // Disable TypeScript errors during build
+    ignoreBuildErrors: true,
   },
   webpack: (config) => {
     config.externals.push({
-      'utf-8-validate': 'commonjs utf-8-validate',
-      'bufferutil': 'commonjs bufferutil'
+      "utf-8-validate": "commonjs utf-8-validate",
+      bufferutil: "commonjs bufferutil",
     });
     return config;
-  }
+  },
 };
 
 module.exports = nextConfig;

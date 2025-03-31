@@ -101,3 +101,17 @@ html {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
 }
+.scroll-container {
+  overflow-x: hidden;
+}
+
+.section {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+@media (pointer: coarse) {
+  html {
+    scroll-behavior: auto !important;
+  }
+}

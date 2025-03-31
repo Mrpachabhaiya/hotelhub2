@@ -36,7 +36,9 @@ model Booking {
   children        Int  @default(0)
   specialRequests String?
   status          BookingStatus @default(PENDING)
+  paymentId       String?
   createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model Contact {
@@ -61,6 +63,8 @@ model Room {
   image       String?
   bookings    Booking[] @relation("RoomToBookings") 
   createdAt   DateTime  @default(now())
+  @@index([capacity])
+  @@index([price])
 }
 
 enum BookingStatus {

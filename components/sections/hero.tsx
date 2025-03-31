@@ -1,5 +1,5 @@
 "use client";
-
+import React ,{useEffect} from "react"
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Playfair_Display } from "next/font/google";
@@ -10,6 +10,12 @@ const playfair = Playfair_Display({ subsets: ["latin"] });
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  // Preload video to prevent flash
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+    }
+  }, []);
   return (
     <section className="relative h-screen w-full overflow-hidden">
       {/* Video Background */}

@@ -5,18 +5,32 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
   const { pathname } = request.nextUrl;
 
-  // Pages to protect from logged-in users
   const authRoutes = ['/login', '/register'];
   
-  // If user is logged in and tries to access auth routes
-  if (token && authRoutes.includes(pathname)) {
-    return NextResponse.redirect(new URL('/', request.url)); // Redirect to home
+  // Only check valid tokens
+  if (token) {
+    try {
+      // Verify token before redirecting
+      const verifyResponse = await fetch(`${request.nextUrl.origin}/api/auth/verify`, {
+        headers: {
+          'Cookie': `token=${token}`
+        }
+      });
+      
+      if (verifyResponse.ok && authRoutes.includes(pathname)) {
+        return NextResponse.redirect(new URL('/', request.url));
+      }
+    } catch (error) {
+      // If token verification fails, clear the invalid token
+      const response = NextResponse.next();
+      response.cookies.delete('token');
+      return response;
+    }
   }
 
   return NextResponse.next();
 }
 
-// Match all auth routes
 export const config = {
   matcher: ['/login', '/register'],
 }
